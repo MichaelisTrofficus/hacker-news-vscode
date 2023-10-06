@@ -8,7 +8,7 @@ import axios from 'axios';
 async function getLatestNews(): Promise<any[]> {
     try {
         const response = await axios.get('https://hacker-news.firebaseio.com/v0/topstories.json');
-        const storyIds = response.data.slice(0, 5);
+        const storyIds = response.data.slice(0, 30);
 
         const stories = await Promise.all(
             storyIds.map(async (storyId: any) => {
@@ -39,7 +39,11 @@ function createNewEntry(entryObject: any, index: number): string {
     } = entryObject;
 
     const rank = index + 1;
-    const hostname = url.match(/\/\/([^/]+)/)[1];
+	let hostname = '';
+
+	if (url) {
+		hostname = url.match(/\/\/([^/]+)/)[1];
+	}
 
     return `
         <tr class="athing" id="${id}">
@@ -147,7 +151,7 @@ function getWebviewContent(styleSrc: vscode.Uri, entriesBlock: string): string {
 function activate(context: vscode.ExtensionContext) {
     console.log('This is my new Hacker News extension');
 
-    let disposable = vscode.commands.registerCommand('some-test-extension.getLatestHackerNews', async () => {
+    let disposable = vscode.commands.registerCommand('hacker-news-vscode.getLatestHackerNews', async () => {
         try {
             const news = await getLatestNews();
             const entriesBlock = news
@@ -155,13 +159,13 @@ function activate(context: vscode.ExtensionContext) {
                 .reduce((acc, curr) => acc + curr, '');
 
             const panel = vscode.window.createWebviewPanel(
-                'some-test-extension',
+                'hacker-news-vscode',
                 'Hacker News',
                 vscode.ViewColumn.One,
                 {}
             );
 
-            const onDiskPath = vscode.Uri.joinPath(context.extensionUri, 'style.css');
+            const onDiskPath = vscode.Uri.joinPath(context.extensionUri, 'styles', 'style.css');
             const styleSrc = panel.webview.asWebviewUri(onDiskPath);
 
             panel.webview.html = getWebviewContent(styleSrc, entriesBlock);
