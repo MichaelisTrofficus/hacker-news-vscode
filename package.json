@@ -1,7 +1,7 @@
 {
   "name": "hacker-news-vscode",
   "displayName": "Hacker News VSCode Extension",
-  "description": "A dummy project that uses VSCode Webview to show Hacker News latest threads",
+  "description": "Visual Studio Code extension for reading Hacker News",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.52.0"
@@ -14,8 +14,7 @@
   "contributes": {
     "commands": [{
       "command": "hacker-news-vscode.getLatestHackerNews",
-      "title": "Read the latest threads!",
-      "category": "Hacker News"
+      "title": "Hacker News"
     }]
   },
   "scripts": {
