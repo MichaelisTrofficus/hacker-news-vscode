@@ -13,4 +13,3 @@ This extension is very simple. It allows you to check the 30 latest threads in H
 ## Usage
 
 Run the command: `Hacker News` in the Command Palette and you are ready to go!!
-
